@@ -1,7 +1,9 @@
 import 'dart:developer';
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart'as http;
+import 'package:http/http.dart' as http;
+import 'SignUpModel.dart';
 
 class Signup extends StatefulWidget {
   @override
@@ -18,6 +20,33 @@ class _SignupState extends State<Signup> {
 
   //TextEditingController cnfmpController = TextEditingController();
 
+  Future<SignUpModel>signUp(String email,String password,String username)async{
+    if(email==""|| password=="" || username==""){
+      // Enter Required Field's
+      //return log("Enter Required Field's");
+      throw ArgumentError("Enter Required Fields");
+    }
+    else{
+      final response=await http.post(Uri.parse("https://milk-ap-is.vercel.app/milkapp/signup"),
+          headers: {
+            "Content-Type":"application/json"
+          },
+          body: jsonEncode({
+            "email":email,
+            "password":password,
+            "username":username
+          })
+      );
+      if(response.statusCode==200){
+        Map<String,dynamic>responsedata=jsonDecode(response.body);
+        SignUpModel signUpModel=SignUpModel.fromJson(responsedata);
+        return signUpModel;
+      }
+      else{
+        return SignUpModel();
+      }
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,9 +139,7 @@ class _SignupState extends State<Signup> {
               // ),
               SizedBox(height: 20,),
               ElevatedButton(onPressed: () {
-                sign(email: mailController.text,
-                    password: pwdController.text,
-                  uname: nameController.text);
+                signUp( mailController.text, pwdController.text, nameController.text);
               },
                   child: Text("Sign Up")
               ),
@@ -124,25 +151,25 @@ class _SignupState extends State<Signup> {
     );
   }
 
-  sign({required String email,required String password, required String uname})async{
-    try{
-      Response response = await post(
-          Uri.parse('https://milk-ap-is.vercel.app/milkapp/signup'),
-          body: {
-            'email' : email,
-            'password' : password,
-            'username' : uname
-          }
-      );
-      if(response.statusCode == 200){
-        print('signin successful!');
-      }else{
-        print('signin failed!!');
-      }
-    } catch(e){
-      print(e.toString());
-    }
-  }
+  // sign({required String email,required String password, required String uname})async{
+  //   try{
+  //     Response response = await post(
+  //         Uri.parse('https://milk-ap-is.vercel.app/milkapp/signup'),
+  //         body: {
+  //           'email' : email,
+  //           'password' : password,
+  //           'username' : uname
+  //         }
+  //     );
+  //     if(response.statusCode == 200){
+  //       print('signin successful!');
+  //     }else{
+  //       print('signin failed!!');
+  //     }
+  //   } catch(e){
+  //     print(e.toString());
+  //   }
+  // }
 }
 
 
