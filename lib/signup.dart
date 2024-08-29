@@ -12,17 +12,17 @@ class Signup extends StatefulWidget {
 
 class _SignupState extends State<Signup> {
   //const Signup({super.key});
-  TextEditingController nameController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
 
   TextEditingController mailController = TextEditingController();
 
-  TextEditingController pwdController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   //TextEditingController cnfmpController = TextEditingController();
 
   Future<SignUpModel>signUp(String email,String password,String username)async{
     if(email==""|| password=="" || username==""){
-      // Enter Required Field's
+      //   Enter Required Field's
       //return log("Enter Required Field's");
       throw ArgumentError("Enter Required Fields");
     }
@@ -63,22 +63,6 @@ class _SignupState extends State<Signup> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(padding: EdgeInsets.symmetric(horizontal: 30),
-                child: TextField(
-                  controller: nameController,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                    hintText: "Your Name",
-                    hintStyle: TextStyle(color: Colors.indigo),
-                    prefixIcon: Icon(Icons.person),
-                    prefixIconColor: Colors.indigo,
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.indigo, width: 2.0),
-                      borderRadius: BorderRadius.circular(4.5),
-                    ),
-                  ),
-                ),
-              ),
               SizedBox(height: 25,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -101,7 +85,7 @@ class _SignupState extends State<Signup> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextField(
-                  controller: pwdController,
+                  controller: passwordController,
                   keyboardType: TextInputType.text,
                   obscureText: true,
                   obscuringCharacter: "*",
@@ -109,6 +93,23 @@ class _SignupState extends State<Signup> {
                     hintText: "Enter Password",
                     hintStyle: TextStyle(color: Colors.indigo),
                     prefixIcon: Icon(Icons.remove_red_eye),
+                    prefixIconColor: Colors.indigo,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.indigo, width: 2.0),
+                      borderRadius: BorderRadius.circular(4.5),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 25,),
+              Padding(padding: EdgeInsets.symmetric(horizontal: 30),
+                child: TextField(
+                  controller: usernameController,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    hintText: "User Name",
+                    hintStyle: TextStyle(color: Colors.indigo),
+                    prefixIcon: Icon(Icons.person),
                     prefixIconColor: Colors.indigo,
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.indigo, width: 2.0),
@@ -139,7 +140,7 @@ class _SignupState extends State<Signup> {
               // ),
               SizedBox(height: 20,),
               ElevatedButton(onPressed: () {
-                signUp( mailController.text, pwdController.text, nameController.text);
+                signUp( mailController.text, passwordController.text, usernameController.text);
               },
                   child: Text("Sign Up")
               ),
